@@ -16,3 +16,4 @@
 - [ ] date and time of the last commit
 - [ ] number of commits on a branch or all branches
 - [ ] archive repo
+- [ ] get how many requests are remaining
