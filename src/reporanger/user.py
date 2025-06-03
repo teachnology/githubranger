@@ -1,5 +1,7 @@
 from .token import Token
 from .util import get
+import logging
+import requests
 
 
 class User:
@@ -48,8 +50,9 @@ class User:
             True if the user can access the repository, False otherwise.
         """
         if not self.exists():
-            return ValueError(f"User {self} does not exist.")
+            logging.warning(f"'{self}' does not exist.")
+            return False
 
         url = f"{repo.api_url}/collaborators/{self.username}"
-        response = get(url, headers=Token.headers())
-        return response["status_code"] == 204
+        response = requests.get(url, headers=Token.headers())  # to allow 404 responses
+        return response.status_code == 204

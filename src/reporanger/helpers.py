@@ -1,7 +1,7 @@
 import logging
 
 
-def refresh_repo(repo, template=None, private=True, users=None):
+def ensure_repo_state(repo, template=None, private=True, users=None):
     """Refresh the repo by creating it if it doesn't exist, or updating it if it does.
 
     The intention for this function is to be run in a loop, so it will not raise an
@@ -25,18 +25,15 @@ def refresh_repo(repo, template=None, private=True, users=None):
     if not repo.exists():
         repo.create(private=private, template=template)
     else:
-        logging.warning(f"Repository '{repo.name}' already exists.")
+        logging.warning(f"Repository '{repo}' already exists.")
 
     if users:
         for user in users:
             if not user.exists():
-                logging.warning(f"User '{user.username}' does not exist.")
+                logging.warning(f"User '{user}' does not exist.")
                 continue
 
             if user.can_access(repo):
-                logging.warning(
-                    f"User '{user.username}' already has access to "
-                    f"repo '{repo.name}'."
-                )
+                logging.warning(f"User '{user}' already has access to repo '{repo}'.")
             else:
                 repo.add_user(user)
