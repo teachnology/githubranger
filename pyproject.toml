@@ -1,7 +1,7 @@
 [project]
 name = "reporanger"
 version = "2025.06.0"
-description = "Python package for efficiently managing and automating tasks across multiple GitHub repositories."
+description = "Python package for managing and automating tasks across multiple GitHub repositories."
 readme = "README.md"
 authors = [{ name = "Marijan Beg", email = "m.beg@imperial.ac.uk" }]
 requires-python = ">=3.13"
