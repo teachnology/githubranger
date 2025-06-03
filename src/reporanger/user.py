@@ -15,6 +15,10 @@ class User:
         self.username = username
         self.api_url = f"https://api.github.com/users/{self.username}"
 
+    def __repr__(self):
+        """Return a string representation of the user."""
+        return f"User(username={self.username})"
+
     def exists(self):
         """Check if the GitHub user exists.
 
@@ -44,7 +48,7 @@ class User:
             True if the user can access the repository, False otherwise.
         """
         if not self.exists():
-            return ValueError(f"User {self.username} does not exist.")
+            return ValueError(f"User {self} does not exist.")
 
         url = f"{repo.api_url}/collaborators/{self.username}"
         response = get(url, headers=Token.headers())

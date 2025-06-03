@@ -34,6 +34,9 @@ def refresh_repo(repo, template=None, private=True, users=None):
                 continue
 
             if user.can_access(repo):
-                logging.warning(f"User '{user.username}' already has access to repo '{repo.name}'.")
+                logging.warning(
+                    f"User '{user.username}' already has access to "
+                    f"repo '{repo.name}'."
+                )
             else:
                 repo.add_user(user)

@@ -24,6 +24,10 @@ class Repo:
         self.name = name
         self.api_url = f"https://api.github.com/repos/{self.org.name}/{self.name}"
 
+    def __repr__(self):
+        """Return a string representation of the repository."""
+        return f"Repo(org={self.org}, name={self.name})"
+
     def exists(self):
         """Check if the GitHub repository exists.
 
@@ -84,13 +88,13 @@ class Repo:
         """
         if self.exists():
             raise ValueError(
-                f"Repository '{self.name}' already exists in organization '{self.org}'."
+                f"Repository '{self}' already exists in organization '{self.org}'."
             )
 
         if template is not None:
             if not template.exists():
                 raise ValueError(
-                    f"Template '{template.org.name}/{template.name}' does not exist."
+                    f"Template '{template}' does not exist."
                 )
 
             url = f"{template.api_url}/generate"
@@ -139,7 +143,7 @@ class Repo:
             data["sha"] = response.json().get("sha")
 
         put(url, headers=Token.headers(), json=data)
-        logging.info(f"Committed file '{path}' to repository '{self.name}'.")
+        logging.info(f"Committed file '{path}' to repository '{self}'.")
 
     def add_user(self, user, permission="push"):
         """Add a user as a collaborator to the repository.
@@ -153,13 +157,13 @@ class Repo:
 
         """
         if not user.exists():
-            raise ValueError(f"User '{user.username}' does not exist.")
+            raise ValueError(f"User '{user}' does not exist.")
 
         if user.can_access(self):
             raise ValueError(
-                f"User '{user.username}' already has access to repo '{self.name}'."
+                f"User '{user}' already can access repo '{self}'."
             )
         url = f"{self.api_url}/collaborators/{user.username}"
         data = {"permission": permission}
         put(url, headers=Token.headers(), json=data)
-        logging.info(f"Added user '{user.username}' to repo '{self.name}'.")
+        logging.info(f"Added user '{user}' to repo '{self}'.")

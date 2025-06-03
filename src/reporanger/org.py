@@ -20,6 +20,10 @@ class Org:
         self.name = name
         self.api_url = f"https://api.github.com/orgs/{self.name}"
 
+    def __repr__(self):
+        """Return a string representation of the organization."""
+        return f"Org(name={self.name})"
+
     def exists(self):
         """
         Check if the GitHub organization exists.
