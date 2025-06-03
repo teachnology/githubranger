@@ -93,9 +93,7 @@ class Repo:
 
         if template is not None:
             if not template.exists():
-                raise ValueError(
-                    f"Template '{template}' does not exist."
-                )
+                raise ValueError(f"Template '{template}' does not exist.")
 
             url = f"{template.api_url}/generate"
             data = {
@@ -160,9 +158,7 @@ class Repo:
             raise ValueError(f"User '{user}' does not exist.")
 
         if user.can_access(self):
-            raise ValueError(
-                f"User '{user}' already can access repo '{self}'."
-            )
+            raise ValueError(f"User '{user}' already can access repo '{self}'.")
         url = f"{self.api_url}/collaborators/{user.username}"
         data = {"permission": permission}
         put(url, headers=Token.headers(), json=data)

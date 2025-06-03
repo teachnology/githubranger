@@ -1,7 +1,9 @@
+import logging
+
+import requests
+
 from .token import Token
 from .util import get
-import logging
-import requests
 
 
 class User:
