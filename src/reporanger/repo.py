@@ -152,7 +152,14 @@ class Repo:
             Permission level for the user (default is "push").
 
         """
+        if not user.exists():
+            raise ValueError(f"User '{user.username}' does not exist.")
+
+        if user.can_access(self):
+            raise ValueError(
+                f"User '{user.username}' already has access to repo '{self.name}'."
+            )
         url = f"{self.api_url}/collaborators/{user.username}"
         data = {"permission": permission}
         put(url, headers=Token.headers(), json=data)
-        logging.info(f"Added user '{user.username}' to repository '{self.name}'.")
+        logging.info(f"Added user '{user.username}' to repo '{self.name}'.")

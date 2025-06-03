@@ -13,6 +13,7 @@ class User:
 
     def __init__(self, username):
         self.username = username
+        self.api_url = f"https://api.github.com/users/{self.username}"
 
     def exists(self):
         """Check if the GitHub user exists.
@@ -22,7 +23,7 @@ class User:
         bool
             True if the user exists, False otherwise.
         """
-        url = f"https://api.github.com/users/{self.username}"
+        url = self.api_url
         try:
             get(url, headers=Token.headers())
             return True
