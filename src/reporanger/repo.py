@@ -2,21 +2,69 @@ import base64
 
 import requests
 
+from .util import get
+from .token import Token
+from .org import Org
+
 
 class Repo:
-    def __init__(self, token, org, name):
-        self.token = token
+    """A GitHub repository with methods to interact with it.
+
+    Parameters
+    ----------
+    org : str
+        The name of the GitHub organization.
+    name : str
+        The name of the GitHub repository.
+
+    """
+
+    def __init__(self, org, name):
         self.org = org
         self.name = name
-        self.headers = {
-            "Authorization": f"token {self.token}",
-            "Accept": "application/vnd.github+json",
-        }
         self.api_url = f"https://api.github.com/repos/{self.org}/{self.name}"
 
-    def repository_exists(self):
-        response = requests.get(self.api_url, headers=self.headers)
-        return response.status_code == 200
+    def exists(self):
+        """Check if the GitHub repository exists.
+
+        Returns
+        -------
+        bool
+            True if the repository exists, False otherwise.
+
+        """
+        url = self.api_url
+        try:
+            get(url, headers=Token.headers(), params=None)
+            return True
+        except ValueError:
+            return False
+
+    def file_content(self, path, branch="main"):
+        """Get the decoded content of a file from the repository.
+
+        Parameters
+        ----------
+        path : str
+            Path to the file in the repository.
+        branch : str, optional
+            Branch name (default is "main").
+
+        Returns
+        -------
+        str or None
+            Decoded file content, or None if not found or decoding fails.
+
+        """
+        url = f"{self.api_url}/contents/{path}?ref={branch}"
+
+        if not (content := get(url, headers=Token.headers()).get("content")):
+            return None
+
+        try:
+            return base64.b64decode(content).decode("utf-8")
+        except (ValueError, TypeError):
+            return None
 
     def create(self, private, template):
         if self.repository_exists():
@@ -89,17 +137,3 @@ class Repo:
             print(
                 f"Error: Unable to parse error message (Status code: {response.status_code})"
             )
-
-    def get_file(self, file_path, branch="main"):
-        url = f"{self.api_url}/contents/{file_path}?ref={branch}"
-        response = requests.get(url, headers=self.headers)
-        if response.status_code == 200:
-            content = response.json().get("content")
-            if content:
-                return base64.b64decode(content).decode("utf-8")
-            else:
-                print("Error: File content is empty or missing.")
-                return None
-        else:
-            self._handle_error(response)
-            return None
