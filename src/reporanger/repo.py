@@ -28,6 +28,18 @@ class Repo:
         """Return a string representation of the repository."""
         return f"Repo(org='{self.org}', name='{self.name}')"
 
+    @property
+    def clone_url(self):
+        """Get the clone URL of the repository.
+
+        Returns
+        -------
+        str
+            The clone URL of the repository.
+
+        """
+        return f"https://github.com/{self.org.name}/{self.name}.git"
+
     def exists(self):
         """Check if the GitHub repository exists.
 
