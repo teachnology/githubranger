@@ -21,7 +21,7 @@ class User:
 
     def __repr__(self):
         """Return a string representation of the user."""
-        return f"User(username={self.username})"
+        return f"User(username=\'{self.username}\')"
 
     def exists(self):
         """Check if the GitHub user exists.
