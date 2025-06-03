@@ -1,5 +1,6 @@
 import reporanger as rr
 
+
 class TestOrg:
     def test_init(self):
         org = rr.Org(name="test_org")

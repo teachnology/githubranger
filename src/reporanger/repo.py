@@ -26,7 +26,7 @@ class Repo:
 
     def __repr__(self):
         """Return a string representation of the repository."""
-        return f"Repo(org=\'{self.org}\', name=\'{self.name}\')"
+        return f"Repo(org='{self.org}', name='{self.name}')"
 
     def exists(self):
         """Check if the GitHub repository exists.

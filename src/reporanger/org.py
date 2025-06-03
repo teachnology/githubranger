@@ -22,7 +22,7 @@ class Org:
 
     def __repr__(self):
         """Return a string representation of the organization."""
-        return f"Org(name=\'{self.name}\')"
+        return f"Org(name='{self.name}')"
 
     def exists(self):
         """
