@@ -1,0 +1,50 @@
+from .token import Token
+from .util import get
+
+
+class User:
+    """A GitHub user with methods to check existence and repository access.
+
+    Parameters
+    ----------
+    username : str
+        The GitHub username of the user.
+    """
+
+    def __init__(self, username):
+        self.username = username
+
+    def exists(self):
+        """Check if the GitHub user exists.
+
+        Returns
+        -------
+        bool
+            True if the user exists, False otherwise.
+        """
+        url = f"https://api.github.com/users/{self.username}"
+        try:
+            get(url, headers=Token.headers())
+            return True
+        except ValueError:
+            return False
+
+    def can_access(self, repo):
+        """Check if the user can access a specific repository.
+
+        Parameters
+        ----------
+        repo : Repo
+            An instance of the Repo class representing the GitHub repository.
+
+        Returns
+        -------
+        bool
+            True if the user can access the repository, False otherwise.
+        """
+        if not self.exists():
+            return ValueError(f"User {self.username} does not exist.")
+
+        url = f"{repo.api_url}/collaborators/{self.username}"
+        response = get(url, headers=Token.headers())
+        return response["status_code"] == 204

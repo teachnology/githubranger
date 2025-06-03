@@ -44,6 +44,8 @@ def get(url, headers=None, params=None, timeout=10):
     except requests.RequestException as e:
         raise RuntimeError(f"Error in {context}(): {e}")
 
+    if response.status_code == 204:
+        return {"status_code": 204}
     if response.status_code == 200:
         try:
             return response.json()
@@ -108,7 +110,7 @@ def post(url, headers=None, data=None, json=None, timeout=10):
     except requests.RequestException as e:
         raise RuntimeError(f"Error in {context}(): {e}")
 
-    if response.status_code == 200 or response.status_code == 201:
+    if response.status_code in (200, 201):
         try:
             return response.json()
         except ValueError:
@@ -172,7 +174,7 @@ def put(url, headers=None, data=None, json=None, timeout=10):
     except requests.RequestException as e:
         raise RuntimeError(f"Error in {context}(): {e}")
 
-    if response.status_code == 200 or response.status_code == 201:
+    if response.status_code in (200, 201):
         try:
             return response.json()
         except ValueError:

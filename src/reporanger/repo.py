@@ -1,10 +1,10 @@
 import base64
 import logging
+
 import requests
 
-from .util import get, post, put
 from .token import Token
-from .org import Org
+from .util import get, post, put
 
 
 class Repo:
@@ -138,36 +138,21 @@ class Repo:
         if response.status_code == 200:
             data["sha"] = response.json().get("sha")
 
-        response = put(url, headers=Token.headers(), json=data)
+        put(url, headers=Token.headers(), json=data)
         logging.info(f"Committed file '{path}' to repository '{self.name}'.")
 
-    def has_access(self, username):
-        response = requests.get(
-            f"{self.api_url}/collaborators/{username}", headers=Token.headers()
-        )
-        return response.status_code == 204
+    def add_user(self, user, permission="push"):
+        """Add a user as a collaborator to the repository.
 
-    def add_collaborators(self, collaborators):
-        for collaborator in collaborators:
-            if not self.has_access(collaborator):
-                self._add_collaborator(collaborator)
+        Parameters
+        ----------
+        user : User
+            An instance of the User class representing the GitHub user.
+        permission : str, optional
+            Permission level for the user (default is "push").
 
-    def _add_collaborator(self, username):
-        response = requests.put(
-            f"{self.api_url}/collaborators/{username}",
-            headers=self.headers,
-            json={"permission": "push"},
-        )
-        if response.status_code in [201, 204]:
-            print(f"Added {username} as a collaborator.")
-        else:
-            self._handle_error(response)
-
-    def _handle_error(self, response):
-        try:
-            error_message = response.json().get("message", "Unknown error occurred")
-            print(f"Error: {error_message} (Status code: {response.status_code})")
-        except ValueError:
-            print(
-                f"Error: Unable to parse error message (Status code: {response.status_code})"
-            )
+        """
+        url = f"{self.api_url}/collaborators/{user.username}"
+        data = {"permission": permission}
+        put(url, headers=Token.headers(), json=data)
+        logging.info(f"Added user '{user.username}' to repository '{self.name}'.")
