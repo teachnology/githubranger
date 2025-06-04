@@ -5,7 +5,7 @@
 
 ## About
 
-`gropuster` is a Python package for efficiently managing and automating tasks across multiple GitHub repositories.
+`githubranger` is a Python package for efficiently managing and automating tasks across multiple GitHub repositories.
 
 ## Installation
 
