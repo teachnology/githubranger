@@ -1,5 +1,5 @@
 [project]
-name = "reporanger"
+name = "githubranger"
 version = "2025.06.0"
 description = "Python package for managing and automating tasks across multiple GitHub repositories."
 readme = "README.md"
@@ -26,7 +26,7 @@ classifiers = [
 ]
 
 [project.urls]
-Repository = "https://github.com/teachnology/reporanger"
+Repository = "https://github.com/teachnology/githubranger"
 
 [build-system]
 requires = ["hatchling"]
@@ -76,4 +76,4 @@ convention = "numpy"
 omit = ["tests/*.py"]
 
 [tool.pytest.ini_options]
-addopts = "-v -n auto --doctest-modules --cov=reporanger --cov-report=html --cov-report=term"
+addopts = "-v -n auto --doctest-modules --cov=githubranger --cov-report=html --cov-report=term"

@@ -1,4 +1,4 @@
-# reporanger
+# githubranger
 [Marijan Beg](https://github.com/marijanbeg)<sup>1</sup>
 
 <sup>1</sup> *Department of Earth Science and Engineering, Imperial College London, London SW7 2AZ, UK*  
@@ -9,10 +9,10 @@
 
 ## Installation
 
-You can install `reporanger` via `pip` from PyPI:
+You can install `githubranger` via `pip` from PyPI:
 
 ```bash
-pip install reporanger
+pip install githubranger
 ```
 
 ## Documentation

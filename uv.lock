@@ -586,7 +586,7 @@ wheels = [
 ]
 
 [[package]]
-name = "reporanger"
+name = "githubranger"
 version = "2025.6.0"
 source = { editable = "." }
 dependencies = [
